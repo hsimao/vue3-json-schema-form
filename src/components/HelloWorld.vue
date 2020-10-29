@@ -71,8 +71,8 @@
     <ul>
       <li>
         <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
+          >vue-router
+        </a>
       </li>
       <li>
         <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
@@ -103,14 +103,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "HelloWorld",
+  name: 'HelloWorld',
   props: {
     msg: String
   }
-});
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
