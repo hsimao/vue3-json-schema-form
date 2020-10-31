@@ -20,16 +20,32 @@ const schema = {
     },
     isWorker: {
       type: 'boolean'
+    },
+    email: {
+      type: 'string',
+      format: 'email'
+    },
+    message: {
+      type: 'string',
+      format: 'test'
     }
   },
   required: ['name', 'age']
 }
 
 const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
+
+ajv.addFormat('test', (data) => {
+  return data === 'haha'
+})
+
 const validate = ajv.compile(schema)
 const valid = validate({
   name: 'Mars',
   pets: ['dog', 'cat'],
-  isWorker: true
+  age: 30,
+  isWorker: true,
+  message: 'haha',
+  email: 'mars@gmail.com'
 })
 if (!valid) console.log(validate.errors)
