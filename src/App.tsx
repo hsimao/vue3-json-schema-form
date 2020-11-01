@@ -1,37 +1,49 @@
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, ref, Ref } from 'vue'
+import MonacoEditor from './components/MonacoEditor'
+import { createUseStyles } from 'vue-jss'
+
+function toJson(data: any) {
+  return JSON.stringify(data, null, 2)
+}
+const schema = {
+  type: 'string'
+}
+
+const useStyles = createUseStyles({
+  editor: {
+    minHeight: 400
+  }
+})
 
 export default defineComponent({
   setup() {
-    const state = reactive({
-      name: 'Mars'
-    })
-    const nameRef = ref('sally')
+    const schemaRef: Ref<any> = ref(schema)
 
-    setTimeout(() => {
-      state.name = 'hihi'
-      nameRef.value = 'yoyo'
-    }, 3000)
+    const handleCodeChange = (code: string) => {
+      let schema: any
 
-    const changeName = () => {
-      state.name = 'changeName'
+      try {
+        schema = JSON.parse(code)
+        schemaRef.value = schema
+      } catch (err) {
+        console.log(err)
+      }
     }
 
-    return () => {
-      const finalName = nameRef.value
-      const { name } = state
-      const items = [{ title: 'title1' }, { title: 'title2' }]
-      return (
-        <div id="app">
-          <p>{name}</p>
-          <p>{finalName}</p>
-          <input type="text" v-model={state.name} />
-          <ul>
-            {items.map((item) => (
-              <li>{item.title}</li>
-            ))}
-          </ul>
+    const classesRef = useStyles()
 
-          <button onClick={changeName}>click</button>
+    return () => {
+      const classes = classesRef.value
+      const code = toJson(schemaRef.value)
+
+      return (
+        <div>
+          <MonacoEditor
+            class={classes.editor}
+            code={code}
+            onChange={handleCodeChange}
+            title="Schema"
+          />
         </div>
       )
     }
