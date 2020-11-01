@@ -28,6 +28,9 @@ const schema = {
     message: {
       type: 'string',
       format: 'test'
+    },
+    testKeyword: {
+      test: true
     }
   },
   required: ['name', 'age']
@@ -39,6 +42,28 @@ ajv.addFormat('test', (data) => {
   return data === 'haha'
 })
 
+ajv.addKeyword('test', {
+  macro() {
+    return {
+      maxLength: 30,
+      type: 'string',
+      format: 'email'
+    }
+  }
+  // compile(sch, parentSchema) {
+  //   console.log('sch', sch)
+  //   console.log('parentSchema', parentSchema)
+  //   return () => true
+  // },
+  // metaSchema: {
+  //   type: 'boolean'
+  // }
+  // validate(schema, data) {
+  //   if (schema === true) return true
+  //   else return data.length === 6
+  // }
+})
+
 const validate = ajv.compile(schema)
 const valid = validate({
   name: 'Mars',
@@ -46,6 +71,7 @@ const valid = validate({
   age: 30,
   isWorker: true,
   message: 'haha',
-  email: 'mars@gmail.com'
+  email: 'mars@gmail.com',
+  testKeyword: 'hello@gmail.com'
 })
 if (!valid) console.log(validate.errors)
