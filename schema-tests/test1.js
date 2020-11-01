@@ -1,5 +1,6 @@
 // Node.js require:
 const Ajv = require('ajv')
+const localize = require('ajv-i18n')
 
 const schema = {
   type: 'object',
@@ -62,6 +63,19 @@ ajv.addKeyword('test', {
   //   if (schema === true) return true
   //   else return data.length === 6
   // }
+  // 自定義 error 訊息
+  // validate: function fun(schema, data) {
+  //   fun.errors = [
+  //     {
+  //       keyword: 'test',
+  //       dataPath: '.testKeyword',
+  //       schemaPath: '#/properties/testKeyword/test',
+  //       params: { keyword: 'test' },
+  //       message: 'Hello error message'
+  //     }
+  //   ]
+  //   return false
+  // }
 })
 
 const validate = ajv.compile(schema)
@@ -72,6 +86,9 @@ const valid = validate({
   isWorker: true,
   message: 'haha',
   email: 'mars@gmail.com',
-  testKeyword: 'hello@gmail.com'
+  testKeyword: 'hellogmail.com'
 })
-if (!valid) console.log(validate.errors)
+if (!valid) {
+  localize['zh-TW'](validate.errors)
+  console.log(validate.errors)
+}
