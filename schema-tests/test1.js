@@ -24,7 +24,12 @@ const schema = {
     },
     email: {
       type: 'string',
-      format: 'email'
+      format: 'email',
+      errorMessage: {
+        type: '請輸入字串',
+        minLength: '字元長度不能小於 10',
+        format: 'Email 格式不正確'
+      }
     },
     message: {
       type: 'string',
@@ -37,7 +42,11 @@ const schema = {
   required: ['name', 'age']
 }
 
-const ajv = new Ajv() // options can be passed, e.g. {allErrors: true}
+const ajv = new Ajv({
+  allErrors: true,
+  jsonPointers: true
+}) // options can be passed, e.g. {allErrors: true}
+require('ajv-errors')(ajv)
 
 ajv.addFormat('test', (data) => {
   return data === 'haha'
@@ -85,8 +94,8 @@ const valid = validate({
   age: 30,
   isWorker: true,
   message: 'haha',
-  email: 'mars@gmail.com',
-  testKeyword: 'hellogmail.com'
+  email: 'marsgmail.com',
+  testKeyword: 'hello@gmail.com'
 })
 if (!valid) {
   localize['zh-TW'](validate.errors)
