@@ -87,7 +87,7 @@ export default defineComponent({
 
     watchEffect(() => {
       const index = selectedRef.value
-      const d = demos[index]
+      const d: any = demos[index]
       demo.schema = d.schema
       demo.data = d.default
       demo.uiSchema = d.uiSchema
