@@ -52,6 +52,10 @@ export const FiledPropsDefine = {
     type: Object as PropType<Schema>,
     required: true
   },
+  rootSchema: {
+    type: Object as PropType<Schema>,
+    required: true
+  },
   value: {
     required: true
   },
