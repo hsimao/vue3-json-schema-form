@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue'
-import { FiledPropsDefine, CommonFieldType } from '../types'
-import { SchemaFormContextKey, useVJSFContext } from '../context'
+import { FiledPropsDefine } from '../types'
+import { useVJSFContext } from '../context'
 import { isObject } from '../utils'
 
 export default defineComponent({
