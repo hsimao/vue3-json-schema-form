@@ -26,6 +26,20 @@ export default {
             type: 'number'
           }
         ]
+      },
+      singleTypeArray: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string'
+            },
+            age: {
+              type: 'number'
+            }
+          }
+        }
       }
     }
   },
@@ -48,6 +62,7 @@ export default {
     lastName: 'Norris',
     age: 75,
     bio: 'Roundhouse kicking asses since 1940',
-    password: 'noneed'
+    password: 'noneed',
+    singleTypeArray: [{ name: 'Mars', age: 30 }]
   }
 }
