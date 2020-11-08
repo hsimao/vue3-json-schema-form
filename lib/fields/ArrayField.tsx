@@ -2,6 +2,7 @@ import { defineComponent, createSlots, PropType } from 'vue'
 import { FiledPropsDefine, Schema } from '../types'
 import { useVJSFContext } from '../context'
 import { createUseStyles } from 'vue-jss'
+import SelectionWidget from '../widgets/Selection'
 
 const useStyles = createUseStyles({
   container: {
@@ -79,12 +80,26 @@ const ArrayItemWrapper = defineComponent({
 })
 /*
   支持的渲染 schema 結構
-  1.)
+  1.) render singleTypeArray schema
   {
     items: { type: string }
   }
+  or
+  {
+    items: {
+      type: string,
+      properties: {
+        name: {
+          type: 'string'
+        },
+        age: {
+          type: 'number'
+        }
+      }
+    }
+  }
 
-  2.)
+  2.) render staticArray schema
   {
     items: [
       { type: string },
@@ -92,7 +107,7 @@ const ArrayItemWrapper = defineComponent({
     ]
   }
 
-  3.)
+  3.) render multiSelectArray schema
   {
     items: { type: string, enum: ['1', '2'] }
   }
@@ -158,6 +173,7 @@ export default defineComponent({
       const isSelect = schema.items && (schema.items as any).enum
 
       if (isMultiType) {
+        // render staticArray schema
         const items: Schema[] = schema.items as any
         const arr = Array.isArray(value) ? value : []
 
@@ -171,6 +187,7 @@ export default defineComponent({
           />
         ))
       } else if (!isSelect) {
+        // render singleTypeArray schema
         const arr = Array.isArray(value) ? value : []
 
         return arr.map((v: any, index: number) => {
@@ -192,9 +209,21 @@ export default defineComponent({
             </ArrayItemWrapper>
           )
         })
+      } else {
+        // render multiSelectArray schema
+        const enumOptions = (schema as any).items.enum
+        const options = enumOptions.map((e: any) => ({
+          key: e,
+          value: e
+        }))
+        return (
+          <SelectionWidget
+            onChange={props.onChange}
+            value={props.value}
+            options={options}
+          />
+        )
       }
-
-      return <div>array field</div>
     }
   }
 })
